@@ -8,9 +8,9 @@ from main import CurrencyConverter
 
 load_dotenv()
 ACCES_KEY = getenv('ACCES_KEY')
-print(ACCES_KEY)
 app = Flask(__name__)
 api = Api(app)
+
 
 class ConvertApp(Resource):
     '''Convert class serializer, which convert currency.
@@ -24,6 +24,12 @@ class ConvertApp(Resource):
     '''
 
     def get(self):
+        """GET method of 'convert_app' view
+        Returns:
+            GET /currency_converter?amount=<amount:float/int>&input_currency=<currency:string>&output_currency=<currency:string> HTTP/1.1
+                - return json currency convcert data
+        """
+
         try:
             parser = reqparse.RequestParser()
             parser.add_argument(
@@ -39,7 +45,6 @@ class ConvertApp(Resource):
                 help='Requested/output currency - [string] 3 letters name or currency symbol.'
             )
             args = parser.parse_args()
-            # return {'amount':args['amount'], 'input_currency':args['input_currency'], 'output_currency':args['output_currency']}
             app = CurrencyConverter(
                 api_url='http://data.fixer.io/api/latest', api_params={'access_key': ACCES_KEY}
             )
@@ -50,4 +55,4 @@ class ConvertApp(Resource):
 api.add_resource(ConvertApp, '/currency_converter', endpoint='convert_app')
 
 if __name__ == '__main__':
-    app.run(debug=True) # change after all on False
+    app.run(debug=False) # change after all on False
