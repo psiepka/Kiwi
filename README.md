@@ -29,13 +29,13 @@
 <br>
 <p>If you want to try it, you must have <b>free</b> acces key to fixier API</p>
 <br><br>
-<h4>Install:</h4>
-<code>git clone https://github.com/psiepka/Kiwi.git</code>
-<small>create <b>.env</b> file with ACCES_KEY</small>
-<code>echo ACCES_KEY=&lt;your-acces-key&gt; > .env</code>
-<code>python3 -m venv venv</code>
-<code>venv\Scripts\activate</code>
-<code>pip install -r requirements.txt</code>
+<h4>Install:</h4><br>
+<code>git clone https://github.com/psiepka/Kiwi.git</code><br>
+<small>create <b>.env</b> file with ACCES_KEY</small><br>
+<code>echo ACCES_KEY=&lt;your-acces-key&gt; > .env</code><br>
+<code>python3 -m venv venv</code><br>
+<code>venv\Scripts\activate</code><br>
+<code>pip install -r requirements.txt</code><br><br>
 <b>Done !</b>
 <br><br>
 <h5>Web Aplication</h5>
