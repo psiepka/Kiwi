@@ -28,14 +28,22 @@ ACCES_KEY = getenv('ACCES_KEY')
 )
 def convert(amount, input_currency, output_currency):
     """
-    Simple program that convert currency
+    Simple program that convert currency.
+
+    Arguments:
+        amount [float/integer] - amount which we want to convert - float
+        input_currency [string] - input currency - 3 letters name or currency symbol
+        output_currency [string] - requested/output currency - 3 letters name or currency symbol
+    Returns:
+            print json currency convert data
     """
     try:
         app = CurrencyConverter(
             api_url='http://data.fixer.io/api/latest', api_params={'access_key': ACCES_KEY}
         )
         return print(dumps(app.convert(amount, input_currency, output_currency,)))
-    except AttributeError as e:
+    except Exception  as e:
+        status = e.args[0].pop('status')
         return print(dumps(e.args[0]))
 
 if __name__ == '__main__':

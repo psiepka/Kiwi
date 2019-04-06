@@ -49,10 +49,11 @@ class ConvertApp(Resource):
                 api_url='http://data.fixer.io/api/latest', api_params={'access_key': ACCES_KEY}
             )
             return app.convert(amount=args['amount'], input_currency=args['input_currency'], output_currency=args['output_currency'])
-        except AttributeError as e:
-            return e.args[0]
+        except Exception as e:
+            status = e.args[0].pop('status')
+            return e.args[0], status
 
 api.add_resource(ConvertApp, '/currency_converter', endpoint='convert_app')
 
 if __name__ == '__main__':
-    app.run(debug=False) # change after all on False
+    app.run(debug=True) # on real-production should be False but when is True view is better matched with example

@@ -17,14 +17,12 @@ class CurrencyConverter:
         dictonary - with input and output currency data
     """
 
-    rates = {}
-
     def __init__(self, api_url, api_params):
         self.req = req_get(api_url, params=api_params)
         if self.req.status_code is not 200:
-            raise ConnectionError
+            raise ConnectionError({'error_message': "Problems with connection to web API", 'status':410})
         if self.req.json()['success'] is not True:
-            raise ConnectionRefusedError
+            raise ConnectionRefusedError({'error_message': "Bad access key to web API", 'status':401})
         self.r_data = self.req.json()
         self.rates = self.r_data.get('rates')
         self.base = self.r_data.get('base')
@@ -44,10 +42,11 @@ class CurrencyConverter:
         initial_amount = amount
         input_currency = self.validate_currency(input_currency)
         pass_input = True
+        if output_currency:
+            output_currency = self.validate_currency(output_currency)
         if input_currency != self.base:
             amount = float(amount) / float(self.rates[input_currency])
             if output_currency:
-                output_currency = self.validate_currency(output_currency)
                 result = {
                     output_currency: (
                         round(float(amount) * float(self.rates[output_currency]), 2)
@@ -72,7 +71,6 @@ class CurrencyConverter:
                 }
                 return json_result
         elif input_currency == self.base:
-            result = float(amount) * float(self.rates[output_currency])
             if output_currency:
                 result = {
                     output_currency: (
@@ -121,7 +119,7 @@ class CurrencyConverter:
                 raise AttributeError
             return currency
         except AttributeError:
-            raise AttributeError({'error_message': "Currency doesn't exist"})
+            raise AttributeError({'error_message': "Currency doesn't exist", 'status':400})
 
 
     @staticmethod
